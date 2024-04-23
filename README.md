@@ -15,7 +15,7 @@ O projeto Petshop é um sistema de gerenciamento para uma loja de animais de est
 4. **Agendamento de Serviços**: Os funcionários podem agendar serviços para os clientes e seus pets em datas específicas.
 
 5. **Registro de Pagamentos**: É possível registrar os pagamentos realizados pelos clientes pelos serviços prestados.
-
+<!-- 
 ## Diagrama de Entidade-Relacionamento (ER)
 
 O diagrama ER abaixo ilustra a estrutura do banco de dados do sistema Petshop:
@@ -26,7 +26,7 @@ O diagrama ER abaixo ilustra a estrutura do banco de dados do sistema Petshop:
 ## Tecnologias Utilizadas
 
 - **Linguagem de Programação**: Java
-<!-- 
+
 - **Banco de Dados**: MySQL
 - **Bibliotecas**: JDBC
 
