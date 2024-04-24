@@ -8,7 +8,7 @@ public class Pet {
     private String  id;
     private String name;
     private String age;
-    private  String spicies;
+    private  String species;
     private String race;
 
 
@@ -16,7 +16,7 @@ public class Pet {
         this.id = gerarIdAleatorio();
         this.name = name;
         this.age = age;
-        this.spicies = spicies;
+        this.species = spicies;
         this.race = race;
     }
 
@@ -51,12 +51,12 @@ public class Pet {
         this.age = age;
     }
 
-    public String getSpicies() {
-        return spicies;
+    public String getSpecies() {
+        return species;
     }
 
-    public void setSpicies(String spicies) {
-        this.spicies = spicies;
+    public void setSpecies(String spicies) {
+        this.species = spicies;
     }
 
     public String getRace() {

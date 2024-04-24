@@ -1,7 +1,4 @@
 package entities;
-
-import entities.Pet;
-
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -9,21 +6,21 @@ public class Client {
 
     private String id;
     private String name;
-    private String endereco;
+    private String address;
     private String phoneNumber;
     private ArrayList<Pet> pets;
 
     public Client(String name, String endereco, String phoneNumber) {
         this.id = gerarIdAleatorio();
         this.name = name;
-        this.endereco = endereco;
+        this.address = endereco;
         this.phoneNumber = phoneNumber;
     }
 
     public Client(String name, String endereco, String phoneNumber, ArrayList<Pet> pets) {
         this.id = gerarIdAleatorio();
         this.name = name;
-        this.endereco = endereco;
+        this.address = endereco;
         this.phoneNumber = phoneNumber;
         this.pets = pets;
     }
@@ -50,12 +47,12 @@ public class Client {
         this.name = name;
     }
 
-    public String getEndereco() {
-        return endereco;
+    public String getAddress() {
+        return address;
     }
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
+    public void setAddress(String endereco) {
+        this.address = endereco;
     }
 
     public String getPhoneNumber() {

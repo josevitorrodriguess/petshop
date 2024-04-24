@@ -8,10 +8,11 @@ import java.util.UUID;
 public class Scheduling {
 
     private String id;
+    private LocalDateTime date;
     private String clientId;
     private String petId;
     private String serviceId;
-    private LocalDateTime date;
+
 
 
     public Scheduling(String clientId, String petId, String serviceId, LocalDateTime date) {
