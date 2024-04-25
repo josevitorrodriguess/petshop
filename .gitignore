@@ -1,3 +1,8 @@
+### From project ###
+db.properties
+
+
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
