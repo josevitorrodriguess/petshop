@@ -1,33 +1,35 @@
 package entities;
 
-import java.util.UUID;
+import java.io.Serializable;
+import java.util.Objects;
 
-public class Service {
-    private String id;
+
+public class Service implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    private int id;
     private String name;
     private  String description;
     private  double price;
 
-    public Service(String name, String description, double price) {
-        this.id = gerarIdAleatorio();
+    public Service(){
+
+    }
+    public Service(int id, String name, String description, double price) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
     }
 
-    public String getId() {
+
+    public int getId() {
         return id;
     }
-    @org.jetbrains.annotations.NotNull
-    private String gerarIdAleatorio() {
-        return UUID.randomUUID().toString().substring(0, 8);
-    }
 
-
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
-
 
     public String getName() {
         return name;
@@ -53,5 +55,21 @@ public class Service {
         this.price = price;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Service service = (Service) o;
+        return id == service.id && Double.compare(price, service.price) == 0 && Objects.equals(name, service.name) && Objects.equals(description, service.description);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, price);
+    }
+
+    @Override
+    public String toString() {
+        return STR."Service{id=\{id}, name='\{name}\{'\''}, description='\{description}\{'\''}, price=\{price}\{'}'}";
+    }
 }

@@ -2,63 +2,41 @@ package entities;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-public class Scheduling {
+import java.util.Objects;
 
-    private String id;
+
+public class Scheduling implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private int id;
     private LocalDateTime date;
-    private String clientId;
-    private String petId;
-    private String serviceId;
+    private Client client;
+    private Pet pet;
+    private Service service;
 
 
+    public Scheduling(){
 
-    public Scheduling(String clientId, String petId, String serviceId, LocalDateTime date) {
-        this.id = gerarIdAleatorio();
-        this.clientId = clientId;
-        this.petId = petId;
-        this.serviceId = serviceId;
+    }
+
+    public Scheduling(int id, LocalDateTime date, Client client, Pet pet, Service service) {
+        this.id = id;
         this.date = date;
+        this.client = client;
+        this.pet = pet;
+        this.service = service;
     }
 
-
-    private @NotNull String gerarIdAleatorio() {
-        return UUID.randomUUID().toString().substring(0, 8);
-    }
-
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
-    }
-
-    public String getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
-
-    public String getPetId() {
-        return petId;
-    }
-
-    public void setPetId(String petId) {
-        this.petId = petId;
-    }
-
-    public String getServiceId() {
-        return serviceId;
-    }
-
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
     }
 
     public LocalDateTime getDate() {
@@ -67,5 +45,47 @@ public class Scheduling {
 
     public void setDate(LocalDateTime date) {
         this.date = date;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Scheduling that = (Scheduling) o;
+        return id == that.id && Objects.equals(date, that.date) && Objects.equals(client, that.client) && Objects.equals(pet, that.pet) && Objects.equals(service, that.service);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, date, client, pet, service);
+    }
+
+    @Override
+    public String toString() {
+        return STR."Scheduling{id=\{id}, date=\{date}, client=\{client}, pet=\{pet}, service=\{service}\{'}'}";
     }
 }

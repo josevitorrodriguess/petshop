@@ -1,41 +1,33 @@
 package entities;
-import java.util.ArrayList;
-import java.util.UUID;
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Objects;
 
-public class Client {
 
-    private String id;
+public class Client implements Serializable  {
+
+
+    private static final long serialVersionUID = 1L;
+    private int id;
     private String name;
     private String address;
     private String phoneNumber;
-    private ArrayList<Pet> pets;
+
+    public Client() {
+    }
 
     public Client(String name, String endereco, String phoneNumber) {
-        this.id = gerarIdAleatorio();
         this.name = name;
         this.address = endereco;
         this.phoneNumber = phoneNumber;
     }
 
-    public Client(String name, String endereco, String phoneNumber, ArrayList<Pet> pets) {
-        this.id = gerarIdAleatorio();
-        this.name = name;
-        this.address = endereco;
-        this.phoneNumber = phoneNumber;
-        this.pets = pets;
-    }
 
-    @org.jetbrains.annotations.NotNull
-    private String gerarIdAleatorio() {
-        return UUID.randomUUID().toString().substring(0, 8);
-    }
-
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -63,11 +55,21 @@ public class Client {
         this.phoneNumber = phoneNumber;
     }
 
-    public ArrayList<Pet> getPets() {
-        return pets;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return id == client.id && Objects.equals(name, client.name) && Objects.equals(address, client.address) && Objects.equals(phoneNumber, client.phoneNumber);
     }
 
-    public void setPets(ArrayList<Pet> pets) {
-        this.pets = pets;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, address, phoneNumber);
+    }
+
+    @Override
+    public String toString() {
+        return STR."Client{id=\{id}, name='\{name}\{'\''}, address='\{address}\{'\''}, phoneNumber='\{phoneNumber}\{'\''}\{'}'}";
     }
 }

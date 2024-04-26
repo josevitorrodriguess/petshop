@@ -1,37 +1,35 @@
 package entities;
 
-import java.util.UUID;
+import java.io.Serializable;
+import java.util.Objects;
 
-public class Pet {
 
+public class Pet implements Serializable {
 
-    private String  id;
+    private static final long serialVersionUID = 1L;
+    private int  id;
     private String name;
-    private String age;
+    private int age;
     private  String species;
     private String race;
+    private Client owner;
 
-
-    public Pet(String name, String age, String spicies, String race) {
-        this.id = gerarIdAleatorio();
+    public Pet() {
+    }
+    public Pet(int id,String name, int age, String spicies, String race, Client owner) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.species = spicies;
         this.race = race;
+        this.owner = owner;
     }
 
-
-    @org.jetbrains.annotations.NotNull
-    private String gerarIdAleatorio() {
-        return UUID.randomUUID().toString().substring(0, 8);
-    }
-
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -43,11 +41,11 @@ public class Pet {
         this.name = name;
     }
 
-    public String getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
@@ -66,4 +64,33 @@ public class Pet {
     public void setRace(String race) {
         this.race = race;
     }
+
+    public Client getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Client owner) {
+        this.owner = owner;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pet pet = (Pet) o;
+        return id == pet.id && age == pet.age && Objects.equals(name, pet.name) && Objects.equals(species, pet.species) && Objects.equals(race, pet.race) && Objects.equals(owner, pet.owner);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, age, species, race, owner);
+    }
+
+    @Override
+    public String toString() {
+        return STR."Pet{id=\{id}, name='\{name}\{'\''}, age=\{age}, species='\{species}\{'\''}, race='\{race}\{'\''}, owner=\{owner}\{'}'}";
+    }
+
+
 }

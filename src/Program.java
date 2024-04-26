@@ -1,10 +1,18 @@
+import dao.DaoFactory;
 import database.DB;
+import entities.*;
 
-import java.sql.Connection;
+
+import java.time.LocalDateTime;
 
 public class Program {
     public static void main(String[] args) {
-        Connection conn = DB.getConnection();
-        DB.closeConnection();
+
+
+        Client ze = new Client("ze","rua da mata","83988822933");
+
+
+        DaoFactory.createClientDAO().insert(ze);
+
     }
 }
