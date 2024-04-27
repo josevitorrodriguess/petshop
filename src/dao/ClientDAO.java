@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ClientDAO {
 
-    void insert(Client obj);
+    int insert(Client obj);
     void update(Client obj);
     void deleteById(Client obj);
     void findById(Client obj);
