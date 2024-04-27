@@ -6,7 +6,7 @@ import entities.Pet;
 import java.util.List;
 
 public interface PetDAO {
-    void insert(Pet obj);
+    int insert(Pet obj);
     void update(Pet obj);
     void deleteById(Pet obj);
     void findById(Pet obj);
