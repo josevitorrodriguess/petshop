@@ -47,7 +47,7 @@ public class PaymentDaoJDBC implements PaymentDAO {
                 if (connection!=null){
                     connection.close();
                 }
-            } catch (Exception e){
+            } catch (SQLException e){
                 e.printStackTrace();
             }
         }
@@ -56,6 +56,15 @@ public class PaymentDaoJDBC implements PaymentDAO {
 
     @Override
     public void update(Payment obj) {
+        String sql = "UPDATE payment SET n payment = ? WHERE id = ?" ;
+
+        Connection connection = null;
+        PreparedStatement pstm = null;
+
+        try {
+            connection = DB.getConnection();
+            pstm = connection.prepareStatement(sql);
+        }
 
     }
 

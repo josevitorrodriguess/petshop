@@ -50,7 +50,7 @@ public class CientDaoJDBC implements ClientDAO {
 //               if (connection!=null){
 //                   connection.close();
 //               }
-//           } catch (Exception e){
+//           }  catch (SQLException e){
 //               e.printStackTrace();
 //           }
         }
@@ -59,6 +59,7 @@ public class CientDaoJDBC implements ClientDAO {
 
     @Override
     public void update(Client obj) {
+
 
     }
 

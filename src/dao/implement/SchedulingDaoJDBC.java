@@ -2,6 +2,7 @@ package dao.implement;
 
 import dao.SchedulingDAO;
 import database.DB;
+import database.exceptions.CloseDbExeption;
 import database.exceptions.InsertErrorExeption;
 import entities.Scheduling;
 
@@ -50,8 +51,8 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
 //               if (connection!=null){
 //                   connection.close();
 //              }
-//           } catch (Exception e){
-//             e.printStackTrace();
+//           }  catch (SQLException e){
+//               e.printStackTrace();
 //           }
         }
         return idGerado;

@@ -2,6 +2,7 @@ package dao.implement;
 
 import dao.PetDAO;
 import database.DB;
+import database.exceptions.CloseDbExeption;
 import database.exceptions.InsertErrorExeption;
 import entities.Pet;
 
@@ -53,7 +54,7 @@ public class PetDaoJDBC implements PetDAO {
 //                if (connection!=null){
 //                    connection.close();
 //                }
-//            } catch (Exception e){
+//            } catch (SQLException e){
 //                e.printStackTrace();
 //            }
         }

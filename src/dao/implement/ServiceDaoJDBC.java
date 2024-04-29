@@ -2,6 +2,7 @@ package dao.implement;
 
 import dao.ServiceDAO;
 import database.DB;
+import database.exceptions.CloseDbExeption;
 import database.exceptions.InsertErrorExeption;
 import entities.Service;
 
@@ -50,7 +51,7 @@ public class ServiceDaoJDBC implements ServiceDAO {
 //                if (connection!=null){
 //                    connection.close();
 //                }
-//            }catch (SQLException e){
+//            } catch (SQLException e){
 //                e.printStackTrace();
 //            }
         }
