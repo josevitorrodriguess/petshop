@@ -34,24 +34,25 @@ public class CientDaoJDBC implements ClientDAO {
             try (ResultSet rs = pstm.getGeneratedKeys()) {
                 if (rs.next()) {
                     idGerado = rs.getInt(1);
-                    System.out.println(STR."ID gerado: \{idGerado}");
+                    obj.setId(idGerado);
+                    System.out.println(STR."ID do cliente: \{idGerado}");
                 } else {
                     throw new SQLException("Não foi possível obter o ID gerado automaticamente.");
                 }
             }
         } catch (SQLException e) {
             throw new InsertErrorExeption(e.getMessage());
-        } finally {
-           try{
-               if (pstm!=null){
-                   pstm.close();
-               }
-               if (connection!=null){
-                   connection.close();
-               }
-           } catch (Exception e){
-               e.printStackTrace();
-           }
+//        } finally {
+//           try{
+//               if (pstm!=null){
+//                   pstm.close();
+//               }
+//               if (connection!=null){
+//                   connection.close();
+//               }
+//           } catch (Exception e){
+//               e.printStackTrace();
+//           }
         }
         return idGerado;
     }

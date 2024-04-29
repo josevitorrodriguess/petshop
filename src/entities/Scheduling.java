@@ -14,21 +14,20 @@ public class Scheduling implements Serializable {
 
     private int id;
     private LocalDateTime date;
-    private Client client;
-    private Pet pet;
-    private Service service;
+    private int clientId;
+    private int petId;
+    private int serviceId;
 
 
     public Scheduling(){
 
     }
 
-    public Scheduling(int id, LocalDateTime date, Client client, Pet pet, Service service) {
-        this.id = id;
+    public Scheduling(LocalDateTime date, int clientId, int petId, int serviceId) {
         this.date = date;
-        this.client = client;
-        this.pet = pet;
-        this.service = service;
+        this.clientId = clientId;
+        this.petId = petId;
+        this.serviceId = serviceId;
     }
 
     public int getId() {
@@ -47,28 +46,28 @@ public class Scheduling implements Serializable {
         this.date = date;
     }
 
-    public Client getClient() {
-        return client;
+    public int getClientId() {
+        return clientId;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 
-    public Pet getPet() {
-        return pet;
+    public int getPetId() {
+        return petId;
     }
 
-    public void setPet(Pet pet) {
-        this.pet = pet;
+    public void setPetId(int petId) {
+        this.petId = petId;
     }
 
-    public Service getService() {
-        return service;
+    public int getServiceId() {
+        return serviceId;
     }
 
-    public void setService(Service service) {
-        this.service = service;
+    public void setServiceId(int serviceId) {
+        this.serviceId = serviceId;
     }
 
     @Override
@@ -76,16 +75,16 @@ public class Scheduling implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Scheduling that = (Scheduling) o;
-        return id == that.id && Objects.equals(date, that.date) && Objects.equals(client, that.client) && Objects.equals(pet, that.pet) && Objects.equals(service, that.service);
+        return id == that.id && clientId == that.clientId && petId == that.petId && serviceId == that.serviceId && Objects.equals(date, that.date);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, client, pet, service);
+        return Objects.hash(id, date, clientId, petId, serviceId);
     }
 
     @Override
     public String toString() {
-        return STR."Scheduling{id=\{id}, date=\{date}, client=\{client}, pet=\{pet}, service=\{service}\{'}'}";
+        return STR."Scheduling{id=\{id}, date=\{date}, clientId=\{clientId}, petId=\{petId}, serviceId=\{serviceId}\{'}'}";
     }
 }

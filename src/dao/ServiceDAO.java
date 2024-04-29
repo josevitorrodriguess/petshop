@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ServiceDAO {
 
-    void insert(Service obj);
+    int insert(Service obj);
     void update(Service obj);
     void deleteById(Service obj);
     void findById(Service obj);

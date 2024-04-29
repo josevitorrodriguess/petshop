@@ -8,15 +8,14 @@ public class Payment implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private  int id;
-    private  Scheduling scheduling;
-    private boolean payment = false;
+    private  int schedulingId;
+    private boolean payment;
 
     public Payment(){
 
     }
-    public Payment(int id,Scheduling scheduling) {
-        this.id =id;
-        this.scheduling = scheduling;
+    public Payment(int schedulingId) {
+        this.schedulingId = schedulingId;
         this.payment = false;
     }
 
@@ -30,12 +29,12 @@ public class Payment implements Serializable {
         this.id = id;
     }
 
-    public Scheduling getScheduling() {
-        return scheduling;
+    public int getSchedulingId() {
+        return schedulingId;
     }
 
-    public void setScheduling(Scheduling scheduling) {
-        this.scheduling = scheduling;
+    public void setSchedulingId(int schedulingId) {
+        this.schedulingId = schedulingId;
     }
 
     public boolean isPayment() {
@@ -46,22 +45,21 @@ public class Payment implements Serializable {
         this.payment = payment;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Payment payment1 = (Payment) o;
-        return id == payment1.id && payment == payment1.payment && Objects.equals(scheduling, payment1.scheduling);
+        return id == payment1.id && schedulingId == payment1.schedulingId && payment == payment1.payment;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, scheduling, payment);
+        return Objects.hash(id, schedulingId, payment);
     }
 
     @Override
     public String toString() {
-        return STR."Payment{id=\{id}, scheduling=\{scheduling}, payment=\{payment}\{'}'}";
+        return STR."Payment{id=\{id}, schedulingId=\{schedulingId}, payment=\{payment}\{'}'}";
     }
 }

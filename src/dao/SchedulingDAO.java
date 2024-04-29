@@ -6,7 +6,7 @@ import entities.Scheduling;
 import java.util.List;
 
 public interface SchedulingDAO {
-    void insert(Scheduling obj);
+    int insert(Scheduling obj);
     void update(Scheduling obj);
     void deleteById(Scheduling obj);
     void findById(Scheduling obj);
