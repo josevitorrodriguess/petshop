@@ -1,32 +1,46 @@
 import dao.DaoFactory;
+import database.DB;
 import entities.*;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.Month;
 
 
 public class Program {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        Connection connection = DB.getConnection();
+
+//        Client ze = new Client(2,"jose","Horacio trajano","83988822933");
+//
+//        DaoFactory.createClientDAO().update(ze, connection);
 
 
-        Client ze = new Client("leticia","arnaldo costa","83987952342");
-        DaoFactory.createClientDAO().insert(ze);
-
-        Pet toto = new Pet("luna",4,"cachorro/dog","pitbull",ze.getId());
-        DaoFactory.createPetDAO().insert(toto);
-
-        Service servico = new Service("cortar orelha","cortar parte da orelha",300.00);
-        DaoFactory.createServiceDAO().insert(servico);
-
-        LocalDateTime data = LocalDateTime.of(2024, Month.MAY, 25, 10, 0);
 
 
-        Scheduling agend = new Scheduling(data,ze.getId(),toto.getId(), servico.getId());
-        DaoFactory.createSchedulingDAO().insert(agend);
-
-        Payment payment = new Payment(agend.getId());
-        DaoFactory.createPaymentDAO().insert(payment);
+//        Payment payment = new Payment(1,true);
+//        DaoFactory.createPaymentDAO().update(payment,connection);
 
 
+
+//        Pet toto = new Pet(1,"fumaça",2,"cachorro","beagle",2);
+//        DaoFactory.createPetDAO().update(toto,connection);
+//
+//        Service servico = new Service("teste","teste",320.00);
+//        servico.setId(1);
+
+//        DaoFactory.createServiceDAO().update(servico,connection);
+////
+//        LocalDateTime data = LocalDateTime.of(2025, Month.APRIL, 25, 10, 0);
+//
+//
+//        Scheduling agend = new Scheduling(1,data,1,1,1);
+//        DaoFactory.createSchedulingDAO().update(agend,connection);
+//
+//        Payment payment = new Payment(agend.getId());
+//        DaoFactory.createPaymentDAO().insert(payment);
+
+        connection.close();
     }
 }

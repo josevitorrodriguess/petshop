@@ -3,6 +3,7 @@ package dao.implement;
 import dao.PaymentDAO;
 import database.DB;
 import database.exceptions.InsertErrorExeption;
+import database.exceptions.UpdateErrorExeption;
 import entities.Payment;
 
 import java.sql.*;
@@ -11,16 +12,14 @@ import java.util.List;
 public class PaymentDaoJDBC implements PaymentDAO {
 
     @Override
-    public int insert(Payment obj) {
+    public int insert(Payment obj, Connection connection) {
         String sql = "INSERT INTO payment (schedulingId,payment) VALUES (?, ?)";
         int idGerado = -1;
 
 
-        Connection connection = null;
         PreparedStatement pstm = null;
 
         try {
-            connection = DB.getConnection();
             pstm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             pstm.setInt(1,obj.getSchedulingId());
@@ -41,11 +40,8 @@ public class PaymentDaoJDBC implements PaymentDAO {
             throw new InsertErrorExeption(e.getMessage());
         } finally {
             try{
-                if (pstm!=null){
+                if (pstm!=null) {
                     pstm.close();
-                }
-                if (connection!=null){
-                    connection.close();
                 }
             } catch (SQLException e){
                 e.printStackTrace();
@@ -55,15 +51,29 @@ public class PaymentDaoJDBC implements PaymentDAO {
     }
 
     @Override
-    public void update(Payment obj) {
-        String sql = "UPDATE payment SET n payment = ? WHERE id = ?" ;
+    public void update(Payment obj,Connection connection) {
+        String sql = "UPDATE payment SET payment = ? WHERE id = ?" ;
 
-        Connection connection = null;
         PreparedStatement pstm = null;
 
         try {
-            connection = DB.getConnection();
             pstm = connection.prepareStatement(sql);
+
+            pstm.setBoolean(1,obj.isPayment());
+
+            pstm.setInt(2,obj.getId());
+
+            pstm.executeUpdate();
+        } catch (SQLException e){
+            throw new UpdateErrorExeption(e.getMessage());
+        } finally {
+            try {
+                if (pstm!=null){
+                    pstm.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
         }
 
     }

@@ -2,8 +2,8 @@ package dao.implement;
 
 import dao.SchedulingDAO;
 import database.DB;
-import database.exceptions.CloseDbExeption;
 import database.exceptions.InsertErrorExeption;
+import database.exceptions.UpdateErrorExeption;
 import entities.Scheduling;
 
 import java.sql.*;
@@ -11,15 +11,14 @@ import java.util.List;
 
 public class SchedulingDaoJDBC implements SchedulingDAO {
     @Override
-    public int insert(Scheduling obj) {
+    public int insert(Scheduling obj, Connection connection) {
         String sql = ("INSERT INTO scheduling(date,clientId,petId,serviceId) VALUES (?,?,?,?)");
         int idGerado = -1;
 
-        Connection connection = null;
+
         PreparedStatement pstm = null;
 
         try{
-            connection = DB.getConnection();
             pstm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
             Timestamp timestamp = Timestamp.valueOf(obj.getDate());
@@ -43,24 +42,44 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
             }
         } catch (SQLException e){
             throw new InsertErrorExeption(e.getMessage());
-//        } finally {
-//           try{
-//               if (pstm!=null){
-//                  pstm.close();
-//              }
-//               if (connection!=null){
-//                   connection.close();
-//              }
-//           }  catch (SQLException e){
-//               e.printStackTrace();
-//           }
+        } finally {
+           try{
+               if (pstm!=null){
+                  pstm.close();
+              }
+           }  catch (SQLException e){
+               e.printStackTrace();
+           }
         }
         return idGerado;
     }
 
     @Override
-    public void update(Scheduling obj) {
+    public void update(Scheduling obj, Connection connection) {
+        String sql = "UPDATE scheduling SET date = ? WHERE id =?";
 
+        PreparedStatement pstm = null;
+
+        try {
+            pstm = connection.prepareStatement(sql);
+
+            Timestamp timestamp = Timestamp.valueOf(obj.getDate());
+
+            pstm.setTimestamp(1,timestamp);
+            pstm.setInt(2,obj.getId());
+
+            pstm.executeUpdate();
+        }catch (SQLException e){
+            throw new UpdateErrorExeption(e.getMessage());
+        } finally {
+            try{
+                if (pstm!=null){
+                    pstm.close();
+                }
+            }  catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
