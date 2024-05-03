@@ -10,7 +10,7 @@ public interface SchedulingDAO {
 
     int insert(Scheduling obj, Connection connection);
     void update(Scheduling obj, Connection connection);
-    void deleteById(Scheduling obj);
+    void delete(Scheduling obj, Connection connection);
     void findById(Scheduling obj);
     List<Scheduling> findAll();
 }

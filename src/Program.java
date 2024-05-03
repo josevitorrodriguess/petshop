@@ -1,3 +1,4 @@
+import dao.ClientDAO;
 import dao.DaoFactory;
 import database.DB;
 import entities.*;
@@ -12,34 +13,30 @@ public class Program {
     public static void main(String[] args) throws SQLException {
         Connection connection = DB.getConnection();
 
-//        Client ze = new Client(2,"jose","Horacio trajano","83988822933");
-//
-//        DaoFactory.createClientDAO().update(ze, connection);
-
-
-
-
-//        Payment payment = new Payment(1,true);
-//        DaoFactory.createPaymentDAO().update(payment,connection);
-
-
-
-//        Pet toto = new Pet(1,"fumaça",2,"cachorro","beagle",2);
-//        DaoFactory.createPetDAO().update(toto,connection);
-//
-//        Service servico = new Service("teste","teste",320.00);
-//        servico.setId(1);
-
-//        DaoFactory.createServiceDAO().update(servico,connection);
+//        Client ze = new Client(5,"Igor","Horacio trajano","83988888888");
+//        DaoFactory.createClientDAO().delete(ze, connection);
 ////
+//
+//        Pet toto = new Pet("fumaça",2,"cachorro","beagle",5);
+//        DaoFactory.createPetDAO().insert(toto,connection);
+//
+//        Service servico = new Service(2,"teste","teste",320.00);
+//        DaoFactory.createServiceDAO().delete(servico,connection);
+
+
 //        LocalDateTime data = LocalDateTime.of(2025, Month.APRIL, 25, 10, 0);
 //
 //
-//        Scheduling agend = new Scheduling(1,data,1,1,1);
-//        DaoFactory.createSchedulingDAO().update(agend,connection);
-//
-//        Payment payment = new Payment(agend.getId());
-//        DaoFactory.createPaymentDAO().insert(payment);
+//        Scheduling agend = new Scheduling(2,data,5,4,2);
+//        DaoFactory.createSchedulingDAO().delete(agend,connection);
+
+
+
+//        Payment payment = new Payment(2,true);
+//        DaoFactory.createPaymentDAO().delete(payment,connection);
+
+
+
 
         connection.close();
     }

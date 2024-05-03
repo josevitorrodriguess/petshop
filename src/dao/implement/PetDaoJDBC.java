@@ -90,7 +90,28 @@ public class PetDaoJDBC implements PetDAO {
     }
 
     @Override
-    public void deleteById(Pet obj) {
+    public void delete(Pet obj, Connection connection) {
+        String sql = "DELETE FROM pet WHERE id=?";
+
+        PreparedStatement pstm = null;
+
+        try {
+            pstm = connection.prepareStatement(sql);
+
+            pstm.setInt(1,obj.getId());
+
+            pstm.executeUpdate();
+        }catch (SQLException e){
+            throw  new UpdateErrorExeption(e.getMessage());
+        }finally {
+            try {
+                if (pstm!=null){
+                    pstm.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
 
     }
 

@@ -80,8 +80,28 @@ public class ServiceDaoJDBC implements ServiceDAO {
     }
 
     @Override
-    public void deleteById(Service obj) {
+    public void delete(Service obj, Connection connection) {
+        String sql = "DELETE FROM service WHERE id=?";
 
+        PreparedStatement pstm = null;
+
+        try {
+            pstm = connection.prepareStatement(sql);
+
+            pstm.setInt(1,obj.getId());
+
+            pstm.executeUpdate();
+        }catch (SQLException e){
+            throw  new UpdateErrorExeption(e.getMessage());
+        }finally {
+            try {
+                if (pstm!=null){
+                    pstm.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

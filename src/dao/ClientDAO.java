@@ -10,7 +10,7 @@ public interface ClientDAO {
 
     int insert(Client obj, Connection connection);
     void update(Client obj, Connection connection);
-    void deleteById(Client obj);
+    void delete(Client obj,Connection connection);
     void findById(Client obj);
     List<Client>findAll();
 }

@@ -10,7 +10,7 @@ public interface PetDAO {
 
     int insert(Pet obj, Connection connection);
     void update(Pet obj, Connection connection);
-    void deleteById(Pet obj);
+    void delete(Pet obj, Connection connection);
     void findById(Pet obj);
     List<Pet> findAll();
 }

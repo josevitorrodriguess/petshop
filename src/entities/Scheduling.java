@@ -20,15 +20,6 @@ public class Scheduling implements Serializable {
 
 
     public Scheduling(){
-
-    }
-
-    public Scheduling(int id,LocalDateTime date, int clientId, int petId, int serviceId) {
-        this.id = id;
-        this.date = date;
-        this.clientId = clientId;
-        this.petId = petId;
-        this.serviceId = serviceId;
     }
 
     public Scheduling(LocalDateTime date, int clientId, int petId, int serviceId) {

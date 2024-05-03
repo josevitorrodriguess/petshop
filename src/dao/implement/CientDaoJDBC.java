@@ -82,12 +82,31 @@ public class CientDaoJDBC implements ClientDAO {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
-    public void deleteById(Client obj) {
+    public void delete(Client obj, Connection connection) {
+        String sql = "DELETE FROM client WHERE id=?";
 
+        PreparedStatement pstm = null;
+
+        try {
+            pstm = connection.prepareStatement(sql);
+
+            pstm.setInt(1,obj.getId());
+
+            pstm.executeUpdate();
+        }catch (SQLException e){
+            throw  new UpdateErrorExeption(e.getMessage());
+        }finally {
+            try {
+                if (pstm!=null){
+                    pstm.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

@@ -16,14 +16,6 @@ public class Pet implements Serializable {
 
     public Pet() {
     }
-    public Pet(int id,String name, int age, String spicies, String race, int clientId) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-        this.species = spicies;
-        this.race = race;
-        this.clientId = clientId;
-    }
     public Pet(String name, int age, String spicies, String race, int clientId) {
         this.name = name;
         this.age = age;

@@ -34,7 +34,7 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
                 if (rs.next()){
                     idGerado = rs.getInt(1);
                     obj.setId(idGerado);
-                    System.out.println(STR."ID do cliente: \{idGerado}");
+                    System.out.println(STR."ID do agendamento: \{idGerado}");
                 } else {
                     throw new SQLException("Não foi possível obter o ID gerado automaticamente.");
                 }
@@ -83,8 +83,28 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
     }
 
     @Override
-    public void deleteById(Scheduling obj) {
+    public void delete(Scheduling obj, Connection connection) {
+        String sql = "DELETE FROM scheduling WHERE id=?";
 
+        PreparedStatement pstm = null;
+
+        try {
+            pstm = connection.prepareStatement(sql);
+
+            pstm.setInt(1,obj.getId());
+
+            pstm.executeUpdate();
+        }catch (SQLException e){
+            throw  new UpdateErrorExeption(e.getMessage());
+        }finally {
+            try {
+                if (pstm!=null){
+                    pstm.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

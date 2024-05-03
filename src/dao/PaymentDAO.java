@@ -8,7 +8,7 @@ import java.util.List;
 public interface PaymentDAO {
     int insert(Payment obj, Connection connection);
     void update(Payment obj, Connection connection);
-    void deleteById(Payment obj);
+    void delete(Payment obj, Connection connection);
     void findById(Payment obj);
     List<Payment> findAll();
 }

@@ -79,7 +79,28 @@ public class PaymentDaoJDBC implements PaymentDAO {
     }
 
     @Override
-    public void deleteById(Payment obj) {
+    public void delete(Payment obj, Connection connection) {
+        String sql = "DELETE FROM payment WHERE id=?";
+
+        PreparedStatement pstm = null;
+
+        try {
+            pstm = connection.prepareStatement(sql);
+
+            pstm.setInt(1,obj.getId());
+
+            pstm.executeUpdate();
+        }catch (SQLException e){
+            throw  new UpdateErrorExeption(e.getMessage());
+        }finally {
+            try {
+                if (pstm!=null){
+                    pstm.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
 
     }
 
