@@ -1,9 +1,8 @@
 package dao.implement;
 
 import dao.SchedulingDAO;
-import database.DB;
-import database.exceptions.InsertErrorExeption;
-import database.exceptions.UpdateErrorExeption;
+import database.exceptions.InsertErrorException;
+import database.exceptions.UpdateErrorException;
 import entities.Scheduling;
 
 import java.sql.*;
@@ -41,7 +40,7 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
 
             }
         } catch (SQLException e){
-            throw new InsertErrorExeption(e.getMessage());
+            throw new InsertErrorException(e.getMessage());
         } finally {
            try{
                if (pstm!=null){
@@ -70,7 +69,7 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
 
             pstm.executeUpdate();
         }catch (SQLException e){
-            throw new UpdateErrorExeption(e.getMessage());
+            throw new UpdateErrorException(e.getMessage());
         } finally {
             try{
                 if (pstm!=null){
@@ -95,7 +94,7 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
 
             pstm.executeUpdate();
         }catch (SQLException e){
-            throw  new UpdateErrorExeption(e.getMessage());
+            throw  new UpdateErrorException(e.getMessage());
         }finally {
             try {
                 if (pstm!=null){

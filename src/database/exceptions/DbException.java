@@ -1,10 +1,10 @@
 package database.exceptions;
 
-public class DbExeption extends RuntimeException {
+public class DbException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public DbExeption(String message){
+    public DbException(String message){
         super(message);
     }
 

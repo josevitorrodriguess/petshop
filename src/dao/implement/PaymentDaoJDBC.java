@@ -1,9 +1,8 @@
 package dao.implement;
 
 import dao.PaymentDAO;
-import database.DB;
-import database.exceptions.InsertErrorExeption;
-import database.exceptions.UpdateErrorExeption;
+import database.exceptions.InsertErrorException;
+import database.exceptions.UpdateErrorException;
 import entities.Payment;
 
 import java.sql.*;
@@ -37,7 +36,7 @@ public class PaymentDaoJDBC implements PaymentDAO {
                 }
             }
         } catch (SQLException e){
-            throw new InsertErrorExeption(e.getMessage());
+            throw new InsertErrorException(e.getMessage());
         } finally {
             try{
                 if (pstm!=null) {
@@ -65,7 +64,7 @@ public class PaymentDaoJDBC implements PaymentDAO {
 
             pstm.executeUpdate();
         } catch (SQLException e){
-            throw new UpdateErrorExeption(e.getMessage());
+            throw new UpdateErrorException(e.getMessage());
         } finally {
             try {
                 if (pstm!=null){
@@ -91,7 +90,7 @@ public class PaymentDaoJDBC implements PaymentDAO {
 
             pstm.executeUpdate();
         }catch (SQLException e){
-            throw  new UpdateErrorExeption(e.getMessage());
+            throw  new UpdateErrorException(e.getMessage());
         }finally {
             try {
                 if (pstm!=null){

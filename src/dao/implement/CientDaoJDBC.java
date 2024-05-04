@@ -1,15 +1,16 @@
 package dao.implement;
 
 import dao.ClientDAO;
-import database.DB;
-import database.exceptions.InsertErrorExeption;
-import database.exceptions.UpdateErrorExeption;
+import database.exceptions.GetErrorException;
+import database.exceptions.InsertErrorException;
+import database.exceptions.UpdateErrorException;
 import entities.Client;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CientDaoJDBC implements ClientDAO {
@@ -43,7 +44,7 @@ public class CientDaoJDBC implements ClientDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new InsertErrorExeption(e.getMessage());
+            throw new InsertErrorException(e.getMessage());
         } finally {
            try{
                if (pstm!=null){
@@ -72,7 +73,7 @@ public class CientDaoJDBC implements ClientDAO {
 
             pstm.executeUpdate();
         } catch (SQLException e){
-            throw new UpdateErrorExeption(e.getMessage());
+            throw new UpdateErrorException(e.getMessage());
         }   finally {
             try {
                 if (pstm!=null){
@@ -97,7 +98,7 @@ public class CientDaoJDBC implements ClientDAO {
 
             pstm.executeUpdate();
         }catch (SQLException e){
-            throw  new UpdateErrorExeption(e.getMessage());
+            throw  new UpdateErrorException(e.getMessage());
         }finally {
             try {
                 if (pstm!=null){
@@ -110,8 +111,58 @@ public class CientDaoJDBC implements ClientDAO {
     }
 
     @Override
-    public void findById(Client obj) {
+    public String get(int id, Connection connection) {
+        String sql = "SELECT * FROM client WHERE id=?";
+        String sqlPet = "SELECT * FROM pet WHERE clientId = ?";
 
+        Client client = new Client();
+        List<String> clientPets = new ArrayList<>();
+
+        PreparedStatement pstm = null;
+        ResultSet rset = null;
+
+
+        try {
+            pstm = connection.prepareStatement(sql);
+
+            pstm.setInt(1,id);
+
+            rset = pstm.executeQuery();
+
+            while (rset.next()){
+                client.setId(id);
+                client.setName(rset.getString("name"));
+                client.setAddress(rset.getString("address"));
+                client.setPhoneNumber(rset.getString("number"));
+            }
+
+            pstm = connection.prepareStatement(sqlPet);
+
+            pstm.setInt(1,id);
+
+            rset = pstm.executeQuery();
+
+            while (rset.next()){
+                clientPets.add(rset.getString("name"));
+            }
+        } catch (SQLException e){
+            throw new GetErrorException(e.getMessage());
+        } finally {
+            try {
+                if (pstm!=null){
+                    pstm.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        StringBuilder result = new StringBuilder();
+        result.append(client.toString()).append("\n");
+        result.append("Pets:\n");
+        for (String pet : clientPets) {
+            result.append(" - ").append(pet).append("\n");
+        }
+        return result.toString();
     }
 
     @Override

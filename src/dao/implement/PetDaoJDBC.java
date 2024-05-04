@@ -1,9 +1,9 @@
 package dao.implement;
 
 import dao.PetDAO;
-import database.DB;
-import database.exceptions.InsertErrorExeption;
-import database.exceptions.UpdateErrorExeption;
+import database.exceptions.GetErrorException;
+import database.exceptions.InsertErrorException;
+import database.exceptions.UpdateErrorException;
 import entities.Pet;
 
 import java.sql.Connection;
@@ -44,7 +44,7 @@ public class PetDaoJDBC implements PetDAO {
                 }
             }
         } catch (SQLException e){
-            throw new InsertErrorExeption(e.getMessage());
+            throw new InsertErrorException(e.getMessage());
         }finally {
             try {
                 if (pstm!=null){
@@ -77,7 +77,7 @@ public class PetDaoJDBC implements PetDAO {
 
            pstm.executeUpdate();
         } catch (SQLException e){
-            throw new UpdateErrorExeption(e.getMessage());
+            throw new UpdateErrorException(e.getMessage());
         } finally {
             try {
                 if (pstm!=null){
@@ -102,7 +102,7 @@ public class PetDaoJDBC implements PetDAO {
 
             pstm.executeUpdate();
         }catch (SQLException e){
-            throw  new UpdateErrorExeption(e.getMessage());
+            throw  new UpdateErrorException(e.getMessage());
         }finally {
             try {
                 if (pstm!=null){
@@ -112,13 +112,62 @@ public class PetDaoJDBC implements PetDAO {
                 e.printStackTrace();
             }
         }
-
     }
 
     @Override
-    public void findById(Pet obj) {
+    public String get(int id, Connection connection) {
+        String sqlPet = "SELECT * FROM pet WHERE id=?";
+        String sqlClient = "SELECT name FROM client WHERE id=?";
 
+        Pet pet = null;
+        String petOwner = null;
+
+        PreparedStatement pstm = null;
+        ResultSet rset = null;
+
+        try {
+            pstm = connection.prepareStatement(sqlPet);
+            pstm.setInt(1, id);
+            rset = pstm.executeQuery();
+
+            if (rset.next()) {
+                pet = new Pet();
+                pet.setId(id);
+                pet.setName(rset.getString("name"));
+                pet.setAge(rset.getInt("age"));
+                pet.setSpecies(rset.getString("species"));
+                pet.setRace(rset.getString("race"));
+                pet.setClientId(rset.getInt("clientId"));
+            }
+
+            pstm = connection.prepareStatement(sqlClient);
+            pstm.setInt(1, pet.getClientId());
+            rset = pstm.executeQuery();
+
+            if (rset.next()) {
+                petOwner = rset.getString("name");
+            }
+        } catch (SQLException e) {
+            throw new GetErrorException(e.getMessage());
+        } finally {
+            try {
+                if (rset != null) {
+                    rset.close();
+                }
+                if (pstm != null) {
+                    pstm.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        StringBuilder result = new StringBuilder();
+        result.append(pet.toString()).append("\n");
+        result.append("Nome do Dono: ").append(petOwner);
+
+        return result.toString();
     }
+
 
     @Override
     public List<Pet> findAll() {

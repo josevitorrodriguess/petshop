@@ -1,9 +1,8 @@
 package dao.implement;
 
 import dao.ServiceDAO;
-import database.DB;
-import database.exceptions.InsertErrorExeption;
-import database.exceptions.UpdateErrorExeption;
+import database.exceptions.InsertErrorException;
+import database.exceptions.UpdateErrorException;
 import entities.Service;
 
 import java.sql.Connection;
@@ -39,7 +38,7 @@ public class ServiceDaoJDBC implements ServiceDAO {
                 }
                }
             } catch (SQLException e) {
-            throw new InsertErrorExeption(e.getMessage());
+            throw new InsertErrorException(e.getMessage());
         } finally {
             try{
                 if (pstm!=null){
@@ -67,7 +66,7 @@ public class ServiceDaoJDBC implements ServiceDAO {
 
             pstm.executeUpdate();
         } catch (SQLException e){
-            throw  new UpdateErrorExeption(e.getMessage());
+            throw  new UpdateErrorException(e.getMessage());
         } finally {
             try{
                 if (pstm!=null){
@@ -92,7 +91,7 @@ public class ServiceDaoJDBC implements ServiceDAO {
 
             pstm.executeUpdate();
         }catch (SQLException e){
-            throw  new UpdateErrorExeption(e.getMessage());
+            throw  new UpdateErrorException(e.getMessage());
         }finally {
             try {
                 if (pstm!=null){

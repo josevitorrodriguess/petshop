@@ -14,12 +14,14 @@ public class Program {
         Connection connection = DB.getConnection();
 
 //        Client ze = new Client(5,"Igor","Horacio trajano","83988888888");
-//        DaoFactory.createClientDAO().delete(ze, connection);
-////
+
+
+
 //
-//        Pet toto = new Pet("fumaça",2,"cachorro","beagle",5);
+//        Pet toto = new Pet("black",2,"cachorro","doberman",6);
 //        DaoFactory.createPetDAO().insert(toto,connection);
-//
+
+        System.out.println(DaoFactory.createPetDAO().get(6, connection));
 //        Service servico = new Service(2,"teste","teste",320.00);
 //        DaoFactory.createServiceDAO().delete(servico,connection);
 

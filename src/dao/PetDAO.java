@@ -11,6 +11,6 @@ public interface PetDAO {
     int insert(Pet obj, Connection connection);
     void update(Pet obj, Connection connection);
     void delete(Pet obj, Connection connection);
-    void findById(Pet obj);
+    String get(int id, Connection connection);
     List<Pet> findAll();
 }

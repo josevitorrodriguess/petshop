@@ -1,6 +1,7 @@
 package database;
 
-import database.exceptions.DbExeption;
+import database.exceptions.CloseDbException;
+import database.exceptions.DbException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -22,7 +23,7 @@ public class DB {
                 connection = DriverManager.getConnection(url,properties);
             }
             catch (SQLException | IOException e){
-                throw  new DbExeption(e.getMessage());
+                throw  new DbException(e.getMessage());
             }
         }
         return connection;
@@ -34,7 +35,7 @@ public class DB {
                 connection.close();
             }
             catch (SQLException e){
-                throw new DbExeption(e.getMessage());
+                throw new CloseDbException(e.getMessage());
             }
         }
     }
@@ -46,7 +47,7 @@ public class DB {
             props.load(fs);
             return props;
         }catch (IOException e){
-            throw new DbExeption(e.getMessage());
+            throw new DbException(e.getMessage());
         }
     }
 }
