@@ -111,7 +111,7 @@ public class CientDaoJDBC implements ClientDAO {
     }
 
     @Override
-    public String get(int id, Connection connection) {
+    public String get(Client obj, Connection connection) {
         String sql = "SELECT * FROM client WHERE id=?";
         String sqlPet = "SELECT * FROM pet WHERE clientId = ?";
 
@@ -125,12 +125,12 @@ public class CientDaoJDBC implements ClientDAO {
         try {
             pstm = connection.prepareStatement(sql);
 
-            pstm.setInt(1,id);
+            pstm.setInt(1,obj.getId());
 
             rset = pstm.executeQuery();
 
             while (rset.next()){
-                client.setId(id);
+                client.setId(rset.getInt("id"));
                 client.setName(rset.getString("name"));
                 client.setAddress(rset.getString("address"));
                 client.setPhoneNumber(rset.getString("number"));
@@ -138,7 +138,7 @@ public class CientDaoJDBC implements ClientDAO {
 
             pstm = connection.prepareStatement(sqlPet);
 
-            pstm.setInt(1,id);
+            pstm.setInt(1,obj.getId());
 
             rset = pstm.executeQuery();
 

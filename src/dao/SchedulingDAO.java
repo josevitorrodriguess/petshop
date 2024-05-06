@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface SchedulingDAO {
 
-    int insert(Scheduling obj, Connection connection);
+    int[] insert(Scheduling obj, Connection connection);
     void update(Scheduling obj, Connection connection);
     void delete(Scheduling obj, Connection connection);
-    void findById(Scheduling obj);
+    String get(Scheduling obj, Connection connection);
     List<Scheduling> findAll();
 }

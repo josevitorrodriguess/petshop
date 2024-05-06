@@ -115,11 +115,11 @@ public class PetDaoJDBC implements PetDAO {
     }
 
     @Override
-    public String get(int id, Connection connection) {
+    public String get(Pet obj, Connection connection) {
         String sqlPet = "SELECT * FROM pet WHERE id=?";
         String sqlClient = "SELECT name FROM client WHERE id=?";
 
-        Pet pet = null;
+        Pet pet = new Pet();
         String petOwner = null;
 
         PreparedStatement pstm = null;
@@ -127,12 +127,11 @@ public class PetDaoJDBC implements PetDAO {
 
         try {
             pstm = connection.prepareStatement(sqlPet);
-            pstm.setInt(1, id);
+            pstm.setInt(1, obj.getId());
             rset = pstm.executeQuery();
 
             if (rset.next()) {
-                pet = new Pet();
-                pet.setId(id);
+                pet.setId(rset.getInt("id"));
                 pet.setName(rset.getString("name"));
                 pet.setAge(rset.getInt("age"));
                 pet.setSpecies(rset.getString("species"));

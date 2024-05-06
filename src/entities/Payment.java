@@ -14,9 +14,13 @@ public class Payment implements Serializable {
     public Payment(){
     }
 
-    public Payment(int schedulingId) {
+    public Payment(int schedulingId, boolean payment) {
         this.schedulingId = schedulingId;
-        this.payment = false;
+        this.payment = payment;
+    }
+    public Payment(int id,int schedulingId) {
+        this.id = id;
+        this.schedulingId = schedulingId;
     }
 
 

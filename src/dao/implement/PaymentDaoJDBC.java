@@ -1,6 +1,7 @@
 package dao.implement;
 
 import dao.PaymentDAO;
+import database.exceptions.GetErrorException;
 import database.exceptions.InsertErrorException;
 import database.exceptions.UpdateErrorException;
 import entities.Payment;
@@ -104,8 +105,46 @@ public class PaymentDaoJDBC implements PaymentDAO {
     }
 
     @Override
-    public void findById(Payment obj) {
+    public String get(Payment obj, Connection connection) {
+        String sql = "SELECT * FROM payment WHERE id=?";
+        Payment payment = new Payment();
 
+        PreparedStatement pstm = null;
+        ResultSet rset = null;
+
+        try {
+            pstm = connection.prepareStatement(sql);
+            pstm.setInt(1, obj.getId());
+            rset = pstm.executeQuery();
+
+
+            if (rset.next()) {
+                payment.setId(rset.getInt("id"));
+                payment.setSchedulingId(rset.getInt("schedulingId"));
+                payment.setPayment(rset.getBoolean("payment"));
+            } else {
+                throw new SQLException("Nenhum resultado encontrado para o ID fornecido.");
+            }
+        } catch (SQLException e) {
+            throw new GetErrorException(e.getMessage());
+        } finally {
+            try {
+                if (pstm != null) {
+                    pstm.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+        StringBuilder resultBuilder = new StringBuilder();
+        resultBuilder.append("Payment Details: \n");
+        resultBuilder.append("ID: ").append(payment.getId()).append("\n");
+        resultBuilder.append("Scheduling ID: ").append(payment.getSchedulingId()).append("\n");
+        resultBuilder.append("Payment Status: ").append(payment.isPayment() ? "Pago" : "Não Pago").append("\n");
+
+        return resultBuilder.toString();
     }
 
     @Override

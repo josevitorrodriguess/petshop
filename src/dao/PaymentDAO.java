@@ -9,6 +9,6 @@ public interface PaymentDAO {
     int insert(Payment obj, Connection connection);
     void update(Payment obj, Connection connection);
     void delete(Payment obj, Connection connection);
-    void findById(Payment obj);
+    String get(Payment obj, Connection connection);
     List<Payment> findAll();
 }

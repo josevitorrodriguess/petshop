@@ -1,6 +1,7 @@
 package dao.implement;
 
 import dao.ServiceDAO;
+import database.exceptions.GetErrorException;
 import database.exceptions.InsertErrorException;
 import database.exceptions.UpdateErrorException;
 import entities.Service;
@@ -104,8 +105,42 @@ public class ServiceDaoJDBC implements ServiceDAO {
     }
 
     @Override
-    public void findById(Service obj) {
+    public String get(Service obj, Connection connection) {
+        String sql = "SELECT * FROM service WHERE id=?";
 
+        Service service = new Service();
+
+        PreparedStatement pstm = null;
+        ResultSet rset = null;
+
+        try {
+            pstm = connection.prepareStatement(sql);
+
+            pstm.setInt(1,obj.getId());
+            rset = pstm.executeQuery();
+
+            if (rset.next()) {
+                service.setId(rset.getInt("id"));
+                service.setName(rset.getString("name"));
+                service.setDescription(rset.getString("description"));
+                service.setPrice(rset.getDouble("price"));
+            }
+        }catch (SQLException e){
+            throw new GetErrorException(e.getMessage());
+        }finally {
+            try {
+                if (pstm!=null){
+                    pstm.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        StringBuilder result = new StringBuilder();
+        result.append(service.toString()).append("\n");
+
+        return result.toString();
+        
     }
 
     @Override
