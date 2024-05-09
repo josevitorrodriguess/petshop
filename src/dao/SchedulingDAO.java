@@ -12,5 +12,4 @@ public interface SchedulingDAO {
     void update(Scheduling obj, Connection connection);
     void delete(Scheduling obj, Connection connection);
     String get(Scheduling obj, Connection connection);
-    List<Scheduling> findAll();
 }

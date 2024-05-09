@@ -14,41 +14,12 @@ public class Program {
     public static void main(String[] args) throws SQLException {
         Connection connection = DB.getConnection();
 
-//        Client leti = new Client("Letícia","Rua arnaldo costa 851","83987952342");
-//
-//        DaoFactory.createClientDAO().insert(leti,connection);
+//        System.out.println("Selecione a opção desejada:\n1-Cadastrar dados:\n2-Deletar dados:\n3-Consultar dados:\n4-Atualizar dados:");
 
+        Payment p = new Payment();
+        p.setId(3);
 
-
-
-
-//        Pet juju = new Pet("jujuba",1,"cão","vira-lata",7);
-//        Pet luna = new Pet("luna",2,"cão","pitbull",7);
-//        DaoFactory.createPetDAO().insert(juju,connection);
-//        DaoFactory.createPetDAO().insert(luna,connection);
-
-
-//        Service servico = new Service("teste","teste",320.00);
-//        DaoFactory.createServiceDAO().insert(servico,connection);
-//
-//        System.out.println(DaoFactory.createServiceDAO().get(servico,connection));
-
-
-//        LocalDateTime data = LocalDateTime.of(2025, Month.APRIL, 25, 10, 0);
-//
-//
-//        Scheduling agend = new Scheduling(data,8,6,4);
-//        DaoFactory.createSchedulingDAO().insert(agend,connection);
-//
-//        System.out.println(DaoFactory.createSchedulingDAO().get(agend,connection));
-
-
-
-        Payment payment = new Payment(3,10);
-        System.out.println(DaoFactory.createPaymentDAO().get(payment,connection));
-
-
-
+        System.out.println(DaoFactory.createPaymentDAO().get(p,connection));
 
         connection.close();
     }

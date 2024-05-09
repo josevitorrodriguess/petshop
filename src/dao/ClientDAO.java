@@ -12,5 +12,5 @@ public interface ClientDAO {
     void update(Client obj, Connection connection);
     void delete(Client obj,Connection connection);
     String get(Client obj, Connection connection);
-    List<Client>findAll();
+
 }

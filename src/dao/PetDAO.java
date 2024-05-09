@@ -12,5 +12,4 @@ public interface PetDAO {
     void update(Pet obj, Connection connection);
     void delete(Pet obj, Connection connection);
     String get(Pet obj, Connection connection);
-    List<Pet> findAll();
 }

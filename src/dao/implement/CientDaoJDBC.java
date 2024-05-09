@@ -112,11 +112,13 @@ public class CientDaoJDBC implements ClientDAO {
 
     @Override
     public String get(Client obj, Connection connection) {
-        String sql = "SELECT * FROM client WHERE id=?";
-        String sqlPet = "SELECT * FROM pet WHERE clientId = ?";
+        String sql = "SELECT c.id, c.name, c.address, c.number, p.name AS clientPets FROM client c, pet p " +
+                "WHERE c.id = ? AND p.clientId = c.id";
+
 
         Client client = new Client();
         List<String> clientPets = new ArrayList<>();
+        String petName = null;
 
         PreparedStatement pstm = null;
         ResultSet rset = null;
@@ -134,16 +136,11 @@ public class CientDaoJDBC implements ClientDAO {
                 client.setName(rset.getString("name"));
                 client.setAddress(rset.getString("address"));
                 client.setPhoneNumber(rset.getString("number"));
-            }
 
-            pstm = connection.prepareStatement(sqlPet);
-
-            pstm.setInt(1,obj.getId());
-
-            rset = pstm.executeQuery();
-
-            while (rset.next()){
-                clientPets.add(rset.getString("name"));
+                petName = rset.getString("clientPets");
+                if (petName != null) {
+                    clientPets.add(petName);
+                }
             }
         } catch (SQLException e){
             throw new GetErrorException(e.getMessage());
@@ -163,10 +160,5 @@ public class CientDaoJDBC implements ClientDAO {
             result.append(" - ").append(pet).append("\n");
         }
         return result.toString();
-    }
-
-    @Override
-    public List<Client> findAll() {
-        return null;
     }
 }

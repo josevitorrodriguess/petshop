@@ -24,33 +24,33 @@ public class PetDaoJDBC implements PetDAO {
 
 
         try {
-            pstm = connection.prepareStatement(sql,PreparedStatement.RETURN_GENERATED_KEYS);
+            pstm = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            pstm.setString(1,obj.getName());
-            pstm.setInt(2,obj.getAge());
-            pstm.setString(3,obj.getSpecies());
-            pstm.setString(4,obj.getRace());
-            pstm.setInt(5,obj.getClientId());
+            pstm.setString(1, obj.getName());
+            pstm.setInt(2, obj.getAge());
+            pstm.setString(3, obj.getSpecies());
+            pstm.setString(4, obj.getRace());
+            pstm.setInt(5, obj.getClientId());
 
             pstm.executeUpdate();
 
-            try(ResultSet rs = pstm.getGeneratedKeys()) {
-                if (rs.next()){
+            try (ResultSet rs = pstm.getGeneratedKeys()) {
+                if (rs.next()) {
                     idGerado = rs.getInt(1);
                     obj.setId(idGerado);
                     System.out.println(STR."ID do pet: \{idGerado}");
-                }else {
+                } else {
                     throw new SQLException("Não foi possível obter o ID gerado automáticamente.");
                 }
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new InsertErrorException(e.getMessage());
-        }finally {
+        } finally {
             try {
-                if (pstm!=null){
+                if (pstm != null) {
                     pstm.close();
                 }
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -59,31 +59,31 @@ public class PetDaoJDBC implements PetDAO {
 
     @Override
     public void update(Pet obj, Connection connection) {
-        String sql = "UPDATE pet SET  name = ?, age = ?, species = ?, race = ?, clientId =?"+
-                     " WHERE id = ?";
+        String sql = "UPDATE pet SET  name = ?, age = ?, species = ?, race = ?, clientId =?" +
+                " WHERE id = ?";
 
         PreparedStatement pstm = null;
 
         try {
-           pstm = connection.prepareStatement(sql);
+            pstm = connection.prepareStatement(sql);
 
-           pstm.setString(1,obj.getName());
-           pstm.setInt(2,obj.getAge());
-           pstm.setString(3, obj.getSpecies());
-           pstm.setString(4,obj.getRace());
-           pstm.setInt(5,obj.getClientId());
+            pstm.setString(1, obj.getName());
+            pstm.setInt(2, obj.getAge());
+            pstm.setString(3, obj.getSpecies());
+            pstm.setString(4, obj.getRace());
+            pstm.setInt(5, obj.getClientId());
 
-           pstm.setInt(6,obj.getId());
+            pstm.setInt(6, obj.getId());
 
-           pstm.executeUpdate();
-        } catch (SQLException e){
+            pstm.executeUpdate();
+        } catch (SQLException e) {
             throw new UpdateErrorException(e.getMessage());
         } finally {
             try {
-                if (pstm!=null){
+                if (pstm != null) {
                     pstm.close();
                 }
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -98,17 +98,17 @@ public class PetDaoJDBC implements PetDAO {
         try {
             pstm = connection.prepareStatement(sql);
 
-            pstm.setInt(1,obj.getId());
+            pstm.setInt(1, obj.getId());
 
             pstm.executeUpdate();
-        }catch (SQLException e){
-            throw  new UpdateErrorException(e.getMessage());
-        }finally {
+        } catch (SQLException e) {
+            throw new UpdateErrorException(e.getMessage());
+        } finally {
             try {
-                if (pstm!=null){
+                if (pstm != null) {
                     pstm.close();
                 }
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -116,8 +116,8 @@ public class PetDaoJDBC implements PetDAO {
 
     @Override
     public String get(Pet obj, Connection connection) {
-        String sqlPet = "SELECT * FROM pet WHERE id=?";
-        String sqlClient = "SELECT name FROM client WHERE id=?";
+        String sql = "SELECT p.id, p.name, p.age, p.species, p.race, p.clientId, c.name AS ownerName " +
+                "FROM pet p, client c WHERE p.id = ? AND p.clientId = c.id";
 
         Pet pet = new Pet();
         String petOwner = null;
@@ -126,7 +126,7 @@ public class PetDaoJDBC implements PetDAO {
         ResultSet rset = null;
 
         try {
-            pstm = connection.prepareStatement(sqlPet);
+            pstm = connection.prepareStatement(sql);
             pstm.setInt(1, obj.getId());
             rset = pstm.executeQuery();
 
@@ -137,14 +137,8 @@ public class PetDaoJDBC implements PetDAO {
                 pet.setSpecies(rset.getString("species"));
                 pet.setRace(rset.getString("race"));
                 pet.setClientId(rset.getInt("clientId"));
-            }
 
-            pstm = connection.prepareStatement(sqlClient);
-            pstm.setInt(1, pet.getClientId());
-            rset = pstm.executeQuery();
-
-            if (rset.next()) {
-                petOwner = rset.getString("name");
+                petOwner = rset.getString("ownerName");
             }
         } catch (SQLException e) {
             throw new GetErrorException(e.getMessage());
@@ -160,16 +154,11 @@ public class PetDaoJDBC implements PetDAO {
                 e.printStackTrace();
             }
         }
+
         StringBuilder result = new StringBuilder();
         result.append(pet.toString()).append("\n");
-        result.append("Nome do Dono: ").append(petOwner);
+        result.append("Nome do Dono: ").append(petOwner != null ? petOwner : "Desconhecido");
 
         return result.toString();
-    }
-
-
-    @Override
-    public List<Pet> findAll() {
-        return null;
     }
 }

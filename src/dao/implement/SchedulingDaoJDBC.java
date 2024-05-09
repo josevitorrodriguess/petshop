@@ -125,70 +125,33 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
 
     @Override
     public String get(Scheduling obj, Connection connection) {
-        String sql = "SELECT * FROM scheduling WHERE id =?";
-        String clientName = "SELECT name FROM client WHERE id =?";
-        String petName = "SELECT name FROM pet WHERE id =?";
-        String serviceName = "SELECT name FROM service WHERE id =?";
+        String sql = "SELECT sc.date, s.name AS serviceName, c.name AS clientName, p.name AS petName " +
+                "FROM scheduling sc " +
+                "JOIN service s ON sc.serviceId = s.id " +
+                "JOIN client c ON sc.clientId = c.id " +
+                "JOIN pet p ON sc.petId = p.id " +
+                "WHERE sc.id = ?";
 
-        Scheduling scheduling = null;
         String client = null;
         String pet = null;
         String service = null;
+        LocalDateTime date = null;
 
         PreparedStatement pstm = null;
         ResultSet rset = null;
 
         try {
-
             pstm = connection.prepareStatement(sql);
             pstm.setInt(1, obj.getId());
             rset = pstm.executeQuery();
 
-            while (rset.next()) {
-                scheduling = new Scheduling();
-                scheduling.setId(rset.getInt("id"));
-                scheduling.setClientId(rset.getInt("clientId"));
-                scheduling.setPetId(rset.getInt("petId"));
-                scheduling.setServiceId(rset.getInt("serviceId"));
+            if (rset.next()) {
                 java.sql.Date dataSQL = rset.getDate("date");
-                LocalDateTime dataHora = dataSQL.toLocalDate().atStartOfDay();
-                scheduling.setDate(dataHora);
-            }
-        } catch (SQLException e) {
-            throw new GetErrorException(e.getMessage());
-        }
+                date = dataSQL.toLocalDate().atStartOfDay();
 
-        try {
-
-            pstm = connection.prepareStatement(clientName);
-            pstm.setInt(1, scheduling.getClientId());
-            rset = pstm.executeQuery();
-            if (rset.next()) {
-                client = rset.getString("name");
-            }
-        } catch (SQLException e) {
-            throw new GetErrorException(e.getMessage());
-        }
-
-        try {
-
-            pstm = connection.prepareStatement(petName);
-            pstm.setInt(1, scheduling.getPetId());
-            rset = pstm.executeQuery();
-            if (rset.next()) {
-                pet = rset.getString("name");
-            }
-        } catch (SQLException e) {
-            throw new GetErrorException(e.getMessage());
-        }
-
-        try {
-
-            pstm = connection.prepareStatement(serviceName);
-            pstm.setInt(1, scheduling.getServiceId());
-            rset = pstm.executeQuery();
-            if (rset.next()) {
-                service = rset.getString("name");
+                client = rset.getString("clientName");
+                service = rset.getString("serviceName");
+                pet = rset.getString("petName");
             }
         } catch (SQLException e) {
             throw new GetErrorException(e.getMessage());
@@ -202,22 +165,21 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
             }
         }
 
-        // Building the result string
         StringBuilder resultBuilder = new StringBuilder();
-        if (client != null) {
-            resultBuilder.append("Client Name: ").append(client).append("\n");
-        }
-        if (pet != null) {
-            resultBuilder.append("Pet Name: ").append(pet).append("\n");
+        if (date != null) {
+            resultBuilder.append("Data: ").append(date).append("\n");
         }
         if (service != null) {
-            resultBuilder.append("Service Name: ").append(service).append("\n");
+            resultBuilder.append("Serviço: ").append(service).append("\n");
+        }
+        if (pet != null) {
+            resultBuilder.append("Pet: ").append(pet).append("\n");
+        }
+        if (client != null) {
+            resultBuilder.append("Cliente: ").append(client).append("\n");
         }
         return resultBuilder.toString();
     }
 
-    @Override
-    public List<Scheduling> findAll() {
-        return null;
-    }
+
 }
