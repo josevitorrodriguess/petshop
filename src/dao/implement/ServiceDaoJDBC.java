@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceDaoJDBC implements ServiceDAO {
@@ -144,7 +145,40 @@ public class ServiceDaoJDBC implements ServiceDAO {
     }
 
     @Override
-    public List<Service> findAll() {
-        return null;
+    public List<Service> findAll(Connection connection) {
+        String sql = "SELECT * FROM service";
+
+        List<Service> allServices = new ArrayList<Service>();
+
+        PreparedStatement pstm = null;
+        ResultSet rset = null;
+
+        try {
+            pstm = connection.prepareStatement(sql);
+
+            rset = pstm.executeQuery();
+
+            while (rset.next()){
+                Service service = new Service();
+
+                service.setId(rset.getInt("id"));
+                service.setName(rset.getString("name"));
+                service.setDescription(rset.getString("description"));
+                service.setPrice(rset.getDouble("price"));
+
+                allServices.add(service);
+            }
+        }catch (SQLException e){
+            throw  new GetErrorException(e.getMessage());
+        }finally {
+            try {
+                if (pstm!=null){
+                    pstm.close();
+                }
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        return allServices;
     }
 }
