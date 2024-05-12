@@ -10,7 +10,7 @@ public interface ClientDAO {
 
     int insert(Client obj, Connection connection);
     void update(Client obj, Connection connection);
-    void delete(Client obj,Connection connection);
+    void delete(int id,Connection connection);
     String get(Client obj, Connection connection);
 
 }

@@ -101,4 +101,29 @@ public class CreateFuncionalities {
         DaoFactory.createSchedulingDAO().insert(scheduling,connection);
     }
 
+    public static void deleteClient(Connection connection){
+        System.out.println("Digite o Id do cliente que deseja deletar:");
+            int id = sc.nextInt();
+        DaoFactory.createClientDAO().delete(id,connection);
+    }
+
+    public static void deletePet(Connection connection){
+        System.out.println("Digite o Id do pet que deseja deletar:");
+        int id = sc.nextInt();
+        DaoFactory.createPetDAO().delete(id,connection);
+    }
+
+    public static void deleteService(Connection connection){
+        System.out.println("Digite o Id do serviço que deseja deletar:");
+        int id = sc.nextInt();
+        DaoFactory.createServiceDAO().delete(id,connection);
+    }
+
+    public static void deleteScheduling(Connection connection){
+        System.out.println("Digite o Id do agendamento que deseja cancelar:");
+        int id = sc.nextInt();
+        DaoFactory.createSchedulingDAO().delete(id,connection);
+    }
+
+
 }

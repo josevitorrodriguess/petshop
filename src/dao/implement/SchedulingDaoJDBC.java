@@ -99,15 +99,15 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
     }
 
     @Override
-    public void delete(Scheduling obj, Connection connection) {
-        String sql = "DELETE FROM scheduling WHERE id=?";
+    public void delete(int id, Connection connection) {
+        String sql = "DELETE FROM scheduling WHERE id = ?;";
 
         PreparedStatement pstm = null;
 
         try {
             pstm = connection.prepareStatement(sql);
 
-            pstm.setInt(1,obj.getId());
+            pstm.setInt(1,id);
 
             pstm.executeUpdate();
         }catch (SQLException e){

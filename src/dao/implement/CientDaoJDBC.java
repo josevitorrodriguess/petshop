@@ -86,7 +86,7 @@ public class CientDaoJDBC implements ClientDAO {
     }
 
     @Override
-    public void delete(Client obj, Connection connection) {
+    public void delete(int id, Connection connection) {
         String sql = "DELETE FROM client WHERE id=?";
 
         PreparedStatement pstm = null;
@@ -94,7 +94,7 @@ public class CientDaoJDBC implements ClientDAO {
         try {
             pstm = connection.prepareStatement(sql);
 
-            pstm.setInt(1,obj.getId());
+            pstm.setInt(1,id);
 
             pstm.executeUpdate();
         }catch (SQLException e){

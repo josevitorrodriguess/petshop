@@ -81,7 +81,7 @@ public class ServiceDaoJDBC implements ServiceDAO {
     }
 
     @Override
-    public void delete(Service obj, Connection connection) {
+    public void delete(int id, Connection connection) {
         String sql = "DELETE FROM service WHERE id=?";
 
         PreparedStatement pstm = null;
@@ -89,7 +89,7 @@ public class ServiceDaoJDBC implements ServiceDAO {
         try {
             pstm = connection.prepareStatement(sql);
 
-            pstm.setInt(1,obj.getId());
+            pstm.setInt(1,id);
 
             pstm.executeUpdate();
         }catch (SQLException e){

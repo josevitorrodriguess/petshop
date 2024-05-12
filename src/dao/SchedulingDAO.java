@@ -10,6 +10,6 @@ public interface SchedulingDAO {
 
     int[] insert(Scheduling obj, Connection connection);
     void update(Scheduling obj, Connection connection);
-    void delete(Scheduling obj, Connection connection);
+    void delete(int id, Connection connection);
     String get(Scheduling obj, Connection connection);
 }
