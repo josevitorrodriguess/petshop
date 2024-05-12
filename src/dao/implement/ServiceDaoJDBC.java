@@ -106,7 +106,7 @@ public class ServiceDaoJDBC implements ServiceDAO {
     }
 
     @Override
-    public String get(Service obj, Connection connection) {
+    public String get(int id, Connection connection) {
         String sql = "SELECT * FROM service WHERE id=?";
 
         Service service = new Service();
@@ -117,7 +117,7 @@ public class ServiceDaoJDBC implements ServiceDAO {
         try {
             pstm = connection.prepareStatement(sql);
 
-            pstm.setInt(1,obj.getId());
+            pstm.setInt(1,id);
             rset = pstm.executeQuery();
 
             if (rset.next()) {

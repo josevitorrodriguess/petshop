@@ -105,7 +105,7 @@ public class PaymentDaoJDBC implements PaymentDAO {
     }
 
     @Override
-    public String get(Payment obj, Connection connection) {
+    public String get(int id, Connection connection) {
         String sql = "SELECT * FROM payment WHERE id=?";
         Payment payment = new Payment();
 
@@ -114,7 +114,7 @@ public class PaymentDaoJDBC implements PaymentDAO {
 
         try {
             pstm = connection.prepareStatement(sql);
-            pstm.setInt(1, obj.getId());
+            pstm.setInt(1, id);
             rset = pstm.executeQuery();
 
 
@@ -145,10 +145,5 @@ public class PaymentDaoJDBC implements PaymentDAO {
         resultBuilder.append("Payment Status: ").append(payment.isPayment() ? "Pago" : "Não Pago").append("\n");
 
         return resultBuilder.toString();
-    }
-
-    @Override
-    public List<Payment> findAll() {
-        return null;
     }
 }

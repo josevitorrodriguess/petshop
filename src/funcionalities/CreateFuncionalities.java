@@ -125,5 +125,34 @@ public class CreateFuncionalities {
         DaoFactory.createSchedulingDAO().delete(id,connection);
     }
 
+    public  static  void getClient(Connection connection){
+        System.out.println("Digite o id do cliente que quer consultar os dados:");
+        int id = sc.nextInt();
+        System.out.println(DaoFactory.createClientDAO().get(id,connection));
+    }
+
+    public static void  getPet(Connection connection){
+        System.out.println("Digite o id do Pet que quer consultar os dados:");
+        int id = sc.nextInt();
+        System.out.println(DaoFactory.createPetDAO().get(id,connection));
+    }
+
+    public static void getService(Connection connection){
+        System.out.println("Digite o id do serviço que quer saber as informações:");
+        int id = sc.nextInt();
+        System.out.println(DaoFactory.createServiceDAO().get(id,connection));
+    }
+
+    public static void getScheduling(Connection connection){
+        System.out.println("Digite o id do agendamento que quer saber as informações:");
+        int id = sc.nextInt();
+        System.out.println(DaoFactory.createSchedulingDAO().get(id,connection));
+    }
+
+    public static void getPayment(Connection connection){
+        System.out.println("Digite o id do pagamento para consultar o status:");
+        int id = sc.nextInt();
+        System.out.println(DaoFactory.createPaymentDAO().get(id,connection));
+    }
 
 }

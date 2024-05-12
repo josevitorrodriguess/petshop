@@ -111,7 +111,7 @@ public class CientDaoJDBC implements ClientDAO {
     }
 
     @Override
-    public String get(Client obj, Connection connection) {
+    public String get(int id, Connection connection) {
         String sql = "SELECT c.id, c.name, c.address, c.number, p.name AS clientPets FROM client c, pet p " +
                 "WHERE c.id = ? AND p.clientId = c.id";
 
@@ -127,7 +127,7 @@ public class CientDaoJDBC implements ClientDAO {
         try {
             pstm = connection.prepareStatement(sql);
 
-            pstm.setInt(1,obj.getId());
+            pstm.setInt(1,id);
 
             rset = pstm.executeQuery();
 

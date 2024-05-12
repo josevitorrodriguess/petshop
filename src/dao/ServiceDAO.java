@@ -11,6 +11,6 @@ public interface ServiceDAO {
     int insert(Service obj, Connection connection);
     void update(Service obj, Connection connection);
     void delete(int id, Connection connection);
-    String get(Service obj, Connection connection);
+    String get(int id, Connection connection);
     List<Service> findAll(Connection connection);
 }

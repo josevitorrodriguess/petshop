@@ -17,8 +17,10 @@ import java.util.Scanner;
 public class Program {
     public static void main(String[] args) throws SQLException {
         Locale.setDefault(Locale.US);
-        Connection connection = DB.getConnection();
         Scanner sc = new Scanner(System.in);
+        Connection connection = DB.getConnection();
+
+
 
             System.out.println("Selecione a opção desejada:\n1-Cadastrar dados:\n2-Deletar dados:\n3-Consultar dados:\n4-Atualizar dados:\n5-Realizar um Agendamento:");
             int resposta = sc.nextInt();
@@ -45,6 +47,21 @@ public class Program {
                        CreateFuncionalities.deleteService(connection);
                     } else if (resposta==4) {
                       CreateFuncionalities.deleteScheduling(connection);
+                    }
+                case 3:
+                    System.out.println("Qual dado você quer consultar:\n 1-Cliente\n 2-Pet\n 3-Serviço\n 4-Agendamento\n 5-Status do pagamento");
+                    resposta = sc.nextInt();
+
+                    if (resposta==1){
+                      CreateFuncionalities.getClient(connection);
+                    } else if (resposta==2) {
+                        CreateFuncionalities.getPet(connection);
+                    } else if (resposta==3) {
+                      CreateFuncionalities.getService(connection);
+                    } else if (resposta==4) {
+                       CreateFuncionalities.getScheduling(connection);
+                    }else if(resposta==5){
+                        CreateFuncionalities.getPayment(connection);
                     }
             }
 

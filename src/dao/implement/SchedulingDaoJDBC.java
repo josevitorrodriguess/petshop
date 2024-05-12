@@ -124,7 +124,7 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
     }
 
     @Override
-    public String get(Scheduling obj, Connection connection) {
+    public String get(int id, Connection connection) {
         String sql = "SELECT sc.date, s.name AS serviceName, c.name AS clientName, p.name AS petName " +
                 "FROM scheduling sc " +
                 "JOIN service s ON sc.serviceId = s.id " +
@@ -142,7 +142,7 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
 
         try {
             pstm = connection.prepareStatement(sql);
-            pstm.setInt(1, obj.getId());
+            pstm.setInt(1, id);
             rset = pstm.executeQuery();
 
             if (rset.next()) {

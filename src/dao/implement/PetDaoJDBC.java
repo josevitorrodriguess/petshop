@@ -115,7 +115,7 @@ public class PetDaoJDBC implements PetDAO {
     }
 
     @Override
-    public String get(Pet obj, Connection connection) {
+    public String get(int id, Connection connection) {
         String sql = "SELECT p.id, p.name, p.age, p.species, p.race, p.clientId, c.name AS ownerName " +
                 "FROM pet p, client c WHERE p.id = ? AND p.clientId = c.id";
 
@@ -127,7 +127,7 @@ public class PetDaoJDBC implements PetDAO {
 
         try {
             pstm = connection.prepareStatement(sql);
-            pstm.setInt(1, obj.getId());
+            pstm.setInt(1, id);
             rset = pstm.executeQuery();
 
             if (rset.next()) {
