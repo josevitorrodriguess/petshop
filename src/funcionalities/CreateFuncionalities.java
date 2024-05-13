@@ -15,6 +15,9 @@ import java.util.Scanner;
 public class CreateFuncionalities {
     static Scanner sc = new Scanner(System.in);
 
+
+    //create
+
     public static void createClient(Connection connection){
         Client client = new Client();
 
@@ -101,6 +104,8 @@ public class CreateFuncionalities {
         DaoFactory.createSchedulingDAO().insert(scheduling,connection);
     }
 
+
+    //delete
     public static void deleteClient(Connection connection){
         System.out.println("Digite o Id do cliente que deseja deletar:");
             int id = sc.nextInt();
@@ -124,6 +129,8 @@ public class CreateFuncionalities {
         int id = sc.nextInt();
         DaoFactory.createSchedulingDAO().delete(id,connection);
     }
+
+   //get
 
     public  static  void getClient(Connection connection){
         System.out.println("Digite o id do cliente que quer consultar os dados:");
@@ -154,5 +161,86 @@ public class CreateFuncionalities {
         int id = sc.nextInt();
         System.out.println(DaoFactory.createPaymentDAO().get(id,connection));
     }
+
+
+    //update
+    public static void updateClient(Connection connection){
+        Client client = new Client();
+        System.out.println("Digite o id do cliente que deseja atualizar os dados:");
+        int id = sc.nextInt();
+        client.setId(id);
+        sc.nextLine();
+
+        System.out.println("Digite o novo nome  caso deseje mudar:");
+        client.setName(sc.nextLine());
+
+        System.out.println("Digite o novo endereço caso deseje mudar:");
+        client.setAddress(sc.nextLine());
+
+        System.out.println("Digite o novo número caso deseje mudar:");
+        client.setPhoneNumber(sc.nextLine());
+
+        DaoFactory.createClientDAO().update(client,connection);
+    }
+
+    public static void updatePet(Connection connection){
+        Pet pet = new Pet();
+
+        System.out.println("Digite o id do pet que deseja atualizar os dados:");
+        int id = sc.nextInt();
+        pet.setId(id);
+
+        System.out.println("Digite o id do dono do pet que deseja mudar:");
+        pet.setClientId(sc.nextInt());
+
+        DaoFactory.createPetDAO().update(pet,connection);
+    }
+
+
+    public static void updateService(Connection connection){
+        Service service = new Service();
+
+        System.out.println("Digite o id do serviço que será atualizado:");
+        int id = sc.nextInt();
+        service.setId(id);
+
+        sc.nextLine();
+        System.out.println("Digite caso deseje atualizar o nome do serviço:");
+        service.setName(sc.nextLine());
+
+
+        System.out.println("Digite caso deseje atualizar a descrição do serviço:");
+        service.setDescription(sc.nextLine());
+
+        System.out.println("Digite caso deseje atualizar o preço do serviço(caso nao queira digite 0):");
+        service.setPrice(sc.nextDouble());
+
+        DaoFactory.createServiceDAO().update(service,connection);
+    }
+
+    public static void updateScheduling(Connection connection){
+        Scheduling scheduling = new Scheduling();
+
+        System.out.println("Digite o id do agendamento que será alterado:");
+        int id = sc.nextInt();
+
+        scheduling.setId(id);
+
+            System.out.println("Digite a nova data e hora no formato(ano mês dia hora minuto)(caso queira mudar):");
+            int ano = sc.nextInt();
+            int mes = sc.nextInt();
+            int dia = sc.nextInt();
+            int hora = sc.nextInt();
+            int minuto = sc.nextInt();
+
+            String dataHoraString = String.format("%d-%02d-%02dT%02d:%02d", ano, mes, dia, hora, minuto);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm");
+            LocalDateTime localDateTime = LocalDateTime.parse(dataHoraString, formatter);
+
+            scheduling.setDate(localDateTime);
+
+        DaoFactory.createSchedulingDAO().update(scheduling,connection);
+    }
+
 
 }

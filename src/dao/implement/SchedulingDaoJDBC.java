@@ -1,6 +1,7 @@
 package dao.implement;
 
 import dao.SchedulingDAO;
+import database.exceptions.DeleteErrorException;
 import database.exceptions.GetErrorException;
 import database.exceptions.InsertErrorException;
 import database.exceptions.UpdateErrorException;
@@ -111,7 +112,7 @@ public class SchedulingDaoJDBC implements SchedulingDAO {
 
             pstm.executeUpdate();
         }catch (SQLException e){
-            throw  new UpdateErrorException(e.getMessage());
+            throw  new DeleteErrorException(e.getMessage());
         }finally {
             try {
                 if (pstm!=null){

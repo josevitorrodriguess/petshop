@@ -1,6 +1,7 @@
 package dao.implement;
 
 import dao.ServiceDAO;
+import database.exceptions.DeleteErrorException;
 import database.exceptions.GetErrorException;
 import database.exceptions.InsertErrorException;
 import database.exceptions.UpdateErrorException;
@@ -55,26 +56,40 @@ public class ServiceDaoJDBC implements ServiceDAO {
 
     @Override
     public void update(Service obj, Connection connection) {
-        String sql = "UPDATE service SET name =?, description =?, price =? WHERE id=?";
+        String sql = "UPDATE service SET name = COALESCE(?, name), description = COALESCE(?, description), price = COALESCE(?, price) WHERE id = ?";
 
         PreparedStatement pstm = null;
         try {
             pstm = connection.prepareStatement(sql);
 
-            pstm.setString(1,obj.getName());
-            pstm.setString(2,obj.getDescription());
-            pstm.setDouble(3,obj.getPrice());
-            pstm.setInt(4,obj.getId());
+            if (obj.getName() != "") {
+                pstm.setString(1, obj.getName());
+            } else {
+                pstm.setString(1,null);
+            }
+
+            if (obj.getDescription() != "") {
+                pstm.setString(2, obj.getDescription());
+            } else {
+                pstm.setString(2,null);
+            }
+
+            if (obj.getPrice() != 0) {
+                pstm.setDouble(3, obj.getPrice());
+            } else {
+                pstm.setObject(3,null);
+            }
+            pstm.setInt(4, obj.getId());
 
             pstm.executeUpdate();
-        } catch (SQLException e){
-            throw  new UpdateErrorException(e.getMessage());
+        } catch (SQLException e) {
+            throw new UpdateErrorException(e.getMessage());
         } finally {
-            try{
-                if (pstm!=null){
+            try {
+                if (pstm != null) {
                     pstm.close();
                 }
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -93,7 +108,7 @@ public class ServiceDaoJDBC implements ServiceDAO {
 
             pstm.executeUpdate();
         }catch (SQLException e){
-            throw  new UpdateErrorException(e.getMessage());
+            throw  new DeleteErrorException(e.getMessage());
         }finally {
             try {
                 if (pstm!=null){

@@ -1,15 +1,13 @@
 package dao.implement;
 
 import dao.PetDAO;
+import database.exceptions.DeleteErrorException;
 import database.exceptions.GetErrorException;
 import database.exceptions.InsertErrorException;
 import database.exceptions.UpdateErrorException;
 import entities.Pet;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 
@@ -59,21 +57,19 @@ public class PetDaoJDBC implements PetDAO {
 
     @Override
     public void update(Pet obj, Connection connection) {
-        String sql = "UPDATE pet SET  name = ?, age = ?, species = ?, race = ?, clientId =?" +
-                " WHERE id = ?";
+        String sql = "UPDATE pet SET clientId = COALESCE(?, clientId) WHERE id = ?";
 
         PreparedStatement pstm = null;
 
         try {
             pstm = connection.prepareStatement(sql);
 
-            pstm.setString(1, obj.getName());
-            pstm.setInt(2, obj.getAge());
-            pstm.setString(3, obj.getSpecies());
-            pstm.setString(4, obj.getRace());
-            pstm.setInt(5, obj.getClientId());
-
-            pstm.setInt(6, obj.getId());
+            if (obj.getClientId() != 0) {
+                pstm.setInt(1, obj.getClientId());
+            } else {
+                pstm.setNull(1, Types.INTEGER);
+            }
+            pstm.setInt(2, obj.getId());
 
             pstm.executeUpdate();
         } catch (SQLException e) {
@@ -102,7 +98,7 @@ public class PetDaoJDBC implements PetDAO {
 
             pstm.executeUpdate();
         } catch (SQLException e) {
-            throw new UpdateErrorException(e.getMessage());
+            throw new DeleteErrorException(e.getMessage());
         } finally {
             try {
                 if (pstm != null) {

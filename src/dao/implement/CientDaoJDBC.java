@@ -1,6 +1,7 @@
 package dao.implement;
 
 import dao.ClientDAO;
+import database.exceptions.DeleteErrorException;
 import database.exceptions.GetErrorException;
 import database.exceptions.InsertErrorException;
 import database.exceptions.UpdateErrorException;
@@ -59,31 +60,50 @@ public class CientDaoJDBC implements ClientDAO {
 
     @Override
     public void update(Client obj, Connection connection) {
-        String sql = "UPDATE client SET name = ?, address = ?, number = ? WHERE id =?";
+        String sql = "UPDATE client SET name = COALESCE(?, name), address = COALESCE(?, address), number = COALESCE(?, number) WHERE id = ?";
 
         PreparedStatement pstm = null;
         try {
             pstm = connection.prepareStatement(sql);
 
-            pstm.setString(1,obj.getName());
-            pstm.setString(2,obj.getAddress());
-            pstm.setString(3,obj.getPhoneNumber());
 
-            pstm.setInt(4,obj.getId());
+            if (obj.getName() != "") {
+                pstm.setString(1, obj.getName());
+            } else {
+                pstm.setString(1, null);
+            }
+
+            if (obj.getAddress() !="") {
+                pstm.setString(2, obj.getAddress());
+            } else {
+                pstm.setString(2, null);
+            }
+
+            if (obj.getPhoneNumber() != "") {
+                pstm.setString(3, obj.getPhoneNumber());
+            } else {
+                pstm.setString(3, null);
+            }
+
+
+            pstm.setInt(4, obj.getId());
+
 
             pstm.executeUpdate();
-        } catch (SQLException e){
+
+        } catch (SQLException e) {
             throw new UpdateErrorException(e.getMessage());
-        }   finally {
+        } finally {
             try {
-                if (pstm!=null){
+                if (pstm != null) {
                     pstm.close();
                 }
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
     }
+
 
     @Override
     public void delete(int id, Connection connection) {
@@ -98,7 +118,7 @@ public class CientDaoJDBC implements ClientDAO {
 
             pstm.executeUpdate();
         }catch (SQLException e){
-            throw  new UpdateErrorException(e.getMessage());
+            throw  new DeleteErrorException(e.getMessage());
         }finally {
             try {
                 if (pstm!=null){
