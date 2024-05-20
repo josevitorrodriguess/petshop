@@ -20,7 +20,7 @@ O projeto Petshop é um sistema de gerenciamento para uma loja de animais de est
 
 O diagrama ER abaixo ilustra a estrutura do banco de dados do sistema Petshop:
 
-<img src="/petshop%20diagrama.jpeg" alt="diagrama" style="height=100px" width=2000">
+![Diagrama](https://imgur.com/a/6hsetxU)
 ## Tecnologias Utilizadas
 
 - **Linguagem de Programação**: Java
