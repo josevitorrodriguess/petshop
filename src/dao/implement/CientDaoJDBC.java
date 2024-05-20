@@ -17,7 +17,6 @@ import java.util.List;
 public class CientDaoJDBC implements ClientDAO {
 
 
-
     @Override
     public int insert(Client obj, Connection connection) {
         String sql = "INSERT INTO client(name,address,number) VALUES (?,?,?)";
@@ -29,9 +28,9 @@ public class CientDaoJDBC implements ClientDAO {
         try {
             pstm = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
-            pstm.setString(1,obj.getName());
-            pstm.setString(2,obj.getAddress());
-            pstm.setString(3,obj.getPhoneNumber());
+            pstm.setString(1, obj.getName());
+            pstm.setString(2, obj.getAddress());
+            pstm.setString(3, obj.getPhoneNumber());
 
             pstm.executeUpdate();
 
@@ -47,13 +46,13 @@ public class CientDaoJDBC implements ClientDAO {
         } catch (SQLException e) {
             throw new InsertErrorException(e.getMessage());
         } finally {
-           try{
-               if (pstm!=null){
-                   pstm.close();
-               }
-           }  catch (SQLException e){
-               e.printStackTrace();
-           }
+            try {
+                if (pstm != null) {
+                    pstm.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return idGerado;
     }
@@ -73,7 +72,7 @@ public class CientDaoJDBC implements ClientDAO {
                 pstm.setString(1, null);
             }
 
-            if (obj.getAddress() !="") {
+            if (obj.getAddress() != "") {
                 pstm.setString(2, obj.getAddress());
             } else {
                 pstm.setString(2, null);
@@ -104,7 +103,6 @@ public class CientDaoJDBC implements ClientDAO {
         }
     }
 
-
     @Override
     public void delete(int id, Connection connection) {
         String sql = "DELETE FROM client WHERE id=?";
@@ -114,17 +112,17 @@ public class CientDaoJDBC implements ClientDAO {
         try {
             pstm = connection.prepareStatement(sql);
 
-            pstm.setInt(1,id);
+            pstm.setInt(1, id);
 
             pstm.executeUpdate();
-        }catch (SQLException e){
-            throw  new DeleteErrorException(e.getMessage());
-        }finally {
+        } catch (SQLException e) {
+            throw new DeleteErrorException(e.getMessage());
+        } finally {
             try {
-                if (pstm!=null){
+                if (pstm != null) {
                     pstm.close();
                 }
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
@@ -132,53 +130,64 @@ public class CientDaoJDBC implements ClientDAO {
 
     @Override
     public String get(int id, Connection connection) {
-        String sql = "SELECT c.id, c.name, c.address, c.number, p.name AS clientPets FROM client c, pet p " +
-                "WHERE c.id = ? AND p.clientId = c.id";
-
+        String sql = "SELECT c.id, c.name, c.address, c.number, p.name AS clientPets " +
+                "FROM client c LEFT JOIN pet p ON p.clientId = c.id " +
+                "WHERE c.id = ?";
 
         Client client = new Client();
         List<String> clientPets = new ArrayList<>();
-        String petName = null;
-
         PreparedStatement pstm = null;
         ResultSet rset = null;
 
-
         try {
             pstm = connection.prepareStatement(sql);
-
-            pstm.setInt(1,id);
-
+            pstm.setInt(1, id);
             rset = pstm.executeQuery();
 
-            while (rset.next()){
-                client.setId(rset.getInt("id"));
-                client.setName(rset.getString("name"));
-                client.setAddress(rset.getString("address"));
-                client.setPhoneNumber(rset.getString("number"));
+            boolean clientDataFetched = false;
 
-                petName = rset.getString("clientPets");
+            while (rset.next()) {
+                if (!clientDataFetched) {
+                    client.setId(rset.getInt("id"));
+                    client.setName(rset.getString("name"));
+                    client.setAddress(rset.getString("address"));
+                    client.setPhoneNumber(rset.getString("number"));
+                    clientDataFetched = true;
+                }
+
+                String petName = rset.getString("clientPets");
                 if (petName != null) {
                     clientPets.add(petName);
                 }
             }
-        } catch (SQLException e){
+
+            // Se nenhum dado do cliente foi buscado, significa que o cliente não existe
+            if (!clientDataFetched) {
+                throw new GetErrorException("Cliente não encontrado com o ID: " + id);
+            }
+
+        } catch (SQLException e) {
             throw new GetErrorException(e.getMessage());
         } finally {
             try {
-                if (pstm!=null){
+                if (rset != null) {
+                    rset.close();
+                }
+                if (pstm != null) {
                     pstm.close();
                 }
-            }catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
         StringBuilder result = new StringBuilder();
         result.append(client.toString()).append("\n");
         result.append("Pets:\n");
         for (String pet : clientPets) {
             result.append(" - ").append(pet).append("\n");
         }
+
         return result.toString();
     }
 }

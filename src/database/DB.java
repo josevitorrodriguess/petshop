@@ -20,6 +20,10 @@ public class DB {
             try {
                 Properties  properties = loadProperties();
                 String url = properties.getProperty("dburl");
+
+                properties.setProperty("useSSL", "true");
+                properties.setProperty("allowPublicKeyRetrieval", "true");
+
                 connection = DriverManager.getConnection(url,properties);
             }
             catch (SQLException | IOException e){

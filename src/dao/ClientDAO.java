@@ -3,7 +3,7 @@ package dao;
 import entities.Client;
 
 import java.sql.Connection;
-import java.util.List;
+
 
 public interface ClientDAO {
 
