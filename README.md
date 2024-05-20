@@ -20,27 +20,22 @@ O projeto Petshop é um sistema de gerenciamento para uma loja de animais de est
 
 O diagrama ER abaixo ilustra a estrutura do banco de dados do sistema Petshop:
 
-![Diagrama ER de banco de dados (petshop)](https://github.com/josevitorrodriguess/petshop/assets/diagrama_er.png)
-
+![petshop diagrama.jpeg](..%2F..%2FDownloads%2Fpetshop%20diagrama.jpeg)
 ## Tecnologias Utilizadas
 
 - **Linguagem de Programação**: Java
 - **Banco de Dados**: MySQL
-<!-- - **Framework de Persistência**: Hibernate
-- **Framework Web**: Spring Boot
-- **Frontend**: HTML, CSS, JavaScript
+- **Framework**: JDBC
 
 ## Instalação e Uso
 
 1. Clone o repositório do projeto: `git clone https://github.com/josevitorrodriguess/petshop.git`
-2. Configure o banco de dados MySQL e importe o arquivo de script para criar as tabelas.
-3. Importe o projeto em sua IDE favorita.
-4. Execute o aplicativo e acesse-o através do navegador da web.
--->
+2. Configure o banco de dados MySQL no arquivo (db.properties) e importe o arquivo de script(createtable.sql) para criar as tabelas.
+3. Rode o código na sua IDE favorita
 ## Contribuição
 
 Contribuições são bem-vindas! Sinta-se à vontade para abrir problemas (issues) e enviar solicitações de pull (pull requests) para melhorar o projeto.
 
 ## Contato
 
-Para mais informações ou dúvidas sobre o projeto, entre em contato com o desenvolvedor pelo e-mail: josevitorrodriguess@example.com
+Para mais informações ou dúvidas sobre o projeto, entre em contato com o desenvolvedor pelo e-mail: josevitorrodrigues17@gmail.com
