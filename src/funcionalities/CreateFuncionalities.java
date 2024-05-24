@@ -1,14 +1,12 @@
 package funcionalities;
 
 import dao.DaoFactory;
-import entities.Client;
-import entities.Pet;
-import entities.Scheduling;
-import entities.Service;
+import entities.*;
 
 import java.sql.Connection;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 
@@ -76,7 +74,7 @@ public class CreateFuncionalities {
         DaoFactory.createServiceDAO().insert(service,connection);
     }
 
-    public  static  void createScheduling(Connection connection){
+    public static void createScheduling(Connection connection) {
         Scheduling scheduling = new Scheduling();
 
         System.out.println("Digite o id do dono do pet:");
@@ -85,7 +83,7 @@ public class CreateFuncionalities {
         System.out.println("Digite o id do pet para o agendamento:");
         scheduling.setPetId(sc.nextInt());
 
-        System.out.println("Digite o id do dono do servico:");
+        System.out.println("Digite o id do serviço:");
         scheduling.setServiceId(sc.nextInt());
 
         System.out.println("Digite a data e hora no formato (ano mês dia hora minuto):");
@@ -95,13 +93,19 @@ public class CreateFuncionalities {
         int hora = sc.nextInt();
         int minuto = sc.nextInt();
 
-        String dataHoraString = String.format("%d-%02d-%02dT%02d:%02d", ano, mes, dia, hora, minuto);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm");
-        LocalDateTime localDateTime = LocalDateTime.parse(dataHoraString, formatter);
+        // Validando e formatando a data e hora
+        try {
+            String dataHoraString = String.format("%d-%02d-%02dT%02d:%02d", ano, mes, dia, hora, minuto);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm");
+            LocalDateTime localDateTime = LocalDateTime.parse(dataHoraString, formatter);
 
-        scheduling.setDate(localDateTime);
+            scheduling.setDate(localDateTime);
 
-        DaoFactory.createSchedulingDAO().insert(scheduling,connection);
+            DaoFactory.createSchedulingDAO().insert(scheduling, connection);
+            System.out.println("Agendamento criado com sucesso!");
+        } catch (DateTimeParseException e) {
+            System.err.println("Formato de data e hora inválido: " + e.getMessage());
+        }
     }
 
 
